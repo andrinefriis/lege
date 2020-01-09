@@ -12,9 +12,9 @@
     <script src="/components/Homebar.js"></script>
     <link rel="stylesheet" href="/css/shop.css">
     <style>
-     db-table {
-       --tsize: 32em;
-     }
+        db-table {
+            --tsize: 32em;
+        }
     </style>
 </head>
 
@@ -22,8 +22,8 @@
     <home-bar heading="Nettbutikk" crumb="vare" getlinks="/htmlfiler/admin" username="/myself">
     </home-bar>
     <div id="admin">
-       
-        <form id="login" action="/makeuser"  method="post">
+
+        <form id="login" action="/makeuser" method="post">
             <div>
                 <label>Username:</label>
                 <input id="username" type="text" placeholder="un" name="username" /><br />
@@ -42,9 +42,7 @@
         </form>
     </div>
     <div class="table">
-        <db-table id="table" update="users"  
-            fields="userid:hidden,username,role,password" delete="users"
-            sql="select * from users">
+        <db-table id="table" update="users" fields="userid:hidden,username,role,password" delete="users" sql="select * from users">
             <span slot="caption">Users</span>
         </db-table>
     </div>

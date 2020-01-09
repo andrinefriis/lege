@@ -19,16 +19,14 @@
     </home-bar>
     <div id="admin">
         <div class="table">
-            <db-table id="table" update="kunde" fields="kundeid:hidden,fornavn,etternavn,adresse,epost,kjonn,tlf" delete="kunde"
-                sql="select * from kunde">
+            <db-table id="table" update="kunde" fields="kundeid:hidden,fornavn,etternavn,adresse,epost,kjonn,tlf" delete="kunde" sql="select * from kunde">
                 <span slot="caption">Kunder</span>
             </db-table>
         </div>
         <db-insert id="form" fields="fornavn,etternavn" foreign="users.userid:username" table="kunde">
             <span slot="heading">Registrer Kunde</span>
         </db-insert>
-        <db-update id="update" key="kundeid" update="true" fields="fornavn,etternavn,adresse,epost,kjonn,tlf"
-            table="kunde">
+        <db-update id="update" key="kundeid" update="true" fields="fornavn,etternavn,adresse,epost,kjonn,tlf" table="kunde">
             <span slot="heading">Rediger Kunde</span>
         </db-update>
     </div>
