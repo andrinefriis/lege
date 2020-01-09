@@ -10,14 +10,9 @@ create database legekontor owner legekontor;     -- create db
 -- enter the new db
 \c legekontor;
 
-
-
 DROP TABLE IF EXISTS pasient cascade;
 DROP TABLE IF EXISTS lege cascade;
 DROP TABLE IF EXISTS legetime cascade;
-DROP TABLE IF EXISTS linje cascade;
-
-
 
 -- pasient
 CREATE TABLE pasient (
@@ -49,10 +44,8 @@ CREATE TABLE  legetime  (
 
 
 ALTER TABLE  legetime  ADD FOREIGN KEY ( pasientid ) REFERENCES  pasient  ( pasientid );
-ALTER TABLE  linje  ADD FOREIGN KEY ( legetimeid ) REFERENCES  legetime  ( legetimeid );
-ALTER TABLE  linje  ADD FOREIGN KEY ( legeid ) REFERENCES  lege  ( legeid );
-ALTER TABLE  pasient  ADD FOREIGN KEY ( userid ) REFERENCES  users  ( userid );
-ALTER TABLE  lege  ADD FOREIGN KEY ( kategori ) REFERENCES  lege  ( legeid );
+ALTER TABLE  pasient  ADD FOREIGN KEY ( legeid ) REFERENCES  users  ( legeid );
+ALTER TABLE  lege  ADD FOREIGN KEY ( legeid ) REFERENCES  lege  ( legeid );
 
 alter table legetime owner to legekontor;
 alter table lege owner to legekontor;
