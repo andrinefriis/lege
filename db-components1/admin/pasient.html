@@ -15,19 +15,19 @@
 </head>
 
 <body>
-    <home-bar heading="Nettbutikk" crumb="vare" getlinks="/htmlfiler/admin" username="/myself">
+    <home-bar heading="Nettbutikk" crumb="lege" getlinks="/htmlfiler/admin" username="/myself">
     </home-bar>
     <div id="admin">
         <div class="table">
-            <db-table id="table" update="kunde" fields="kundeid:hidden,fornavn,etternavn,adresse,epost,kjonn,tlf" delete="kunde" sql="select * from kunde">
-                <span slot="caption">Kunder</span>
+            <db-table id="table" update="pasient" fields="pasientid:hidden,fornavn,etternavn,adresse,epost,kjonn,tlf" delete="pasient" sql="select * from pasient">
+                <span slot="caption">pasientr</span>
             </db-table>
         </div>
-        <db-insert id="form" fields="fornavn,etternavn" foreign="users.userid:username" table="kunde">
-            <span slot="heading">Registrer Kunde</span>
+        <db-insert id="form" fields="fornavn,etternavn" foreign="users.userid:username" table="pasient">
+            <span slot="heading">Registrer pasient</span>
         </db-insert>
-        <db-update id="update" key="kundeid" update="true" fields="fornavn,etternavn,adresse,epost,kjonn,tlf" table="kunde">
-            <span slot="heading">Rediger Kunde</span>
+        <db-update id="update" key="pasientid" update="true" fields="fornavn,etternavn,adresse,epost,kjonn,tlf" table="pasient">
+            <span slot="heading">Rediger pasient</span>
         </db-update>
     </div>
 </body>
