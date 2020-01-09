@@ -17,40 +17,40 @@
 
 <body>
 
-    <home-bar heading="Nettbutikk" crumb="bestilling" getlinks="/htmlfiler/admin" username="/myself" ">
+    <home-bar heading="Nettbutikk" crumb="legetime" getlinks="/htmlfiler/admin" username="/myself" ">
     </home-bar>
     
-    <h1 class=" centered ">Mine Bestillinger</h1>
+    <h1 class=" centered ">Mine legetimeer</h1>
         <div id="admin ">
 
-            <db-insert id="form " fields="dato:date " table="bestilling ">
-                <span slot="heading ">Bestilling Vare</span>
-                <db-user id="kundeid " field="kundeid " label="Kundenr "></db-user>
+            <db-insert id="form " fields="dato:date " table="legetime ">
+                <span slot="heading ">legetime lege</span>
+                <db-user id="pasientid " field="pasientid " label="pasientnr "></db-user>
             </db-insert>
            
 
             <div class="table ">
-                <db-table connected="kundeid:kundeid " id="bestilling " update="bestilling " key="bestillingid "
-                    fields="bestillingid:number,dato:date " delete="bestilling " sql="select * from bestilling ">
-                    <span slot="caption ">Mine bestillinger</span>
+                <db-table connected="pasientid:pasientid " id="legetime " update="legetime " key="legetimeid "
+                    fields="legetimeid:number,dato:date " delete="legetime " sql="select * from legetime ">
+                    <span slot="caption ">Mine legetimeer</span>
                 </db-table>
 
-                <db-insert id="linje " fields="antall " foreign="vare.vareid:navn+pris "
-                    connected="bestilling:bestillingid " table="linje ">
-                    <span slot="heading ">Bestilling Vare</span>
+                <db-insert id="linje " fields="antall " foreign="lege.legeid:navn+pris "
+                    connected="legetime:legetimeid " table="linje ">
+                    <span slot="heading ">legetime lege</span>
                 </db-insert>
 
-                <db-table connected="bestilling:bestillingid " fields="linjeid:hidden,navn,antall:int,pris:money "
+                <db-table connected="legetime:legetimeid " fields="linjeid:hidden,navn,antall:int,pris:money "
                     update="linje " delete="linje "
-                    sql="select l.*,v.navn,v.pris from linje l inner join vare v on (v.vareid=l .vareid) ">
-                    <span slot="caption ">Varelinje</span>
+                    sql="select l.*,v.navn,v.pris from linje l inner join lege v on (v.legeid=l .legeid) ">
+                    <span slot="caption ">legelinje</span>
                 </db-table>
 
-                <db-table id="total " connected="bestilling:bestillingid " fields="total:money " update="linje " sql="select sum(l.antall * v.pris) as total from linje l inner join vare v on (v.vareid=l .vareid) ">
+                <db-table id="total " connected="legetime:legetimeid " fields="total:money " update="linje " sql="select sum(l.antall * v.pris) as total from linje l inner join lege v on (v.legeid=l .legeid) ">
                     <span slot="caption ">Totalsum</span>
                 </db-table>
 
-                <db-list cssimport="/css/admin.css " sql="select sum(l.antall * v.pris) as total from linje l inner join vare v on (v.vareid=l .vareid) ">
+                <db-list cssimport="/css/admin.css " sql="select sum(l.antall * v.pris) as total from linje l inner join lege v on (v.legeid=l .legeid) ">
                     <div class="total ">Totalsummen blir ${total} kr</div>
                 </db-list>
 
