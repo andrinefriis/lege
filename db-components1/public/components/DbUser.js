@@ -30,9 +30,10 @@
   class DBUser extends HTMLElement {
     constructor() {
       super();
-      this.sql = "";
+      this.sql =  "";
       this.field = "userid";
       this.table = "users";
+      this.silent = "";
       this._root = this.attachShadow({ mode: "open" });
       this.shadowRoot.appendChild(template.content.cloneNode(true));
     }
@@ -40,9 +41,10 @@
     /**
      * field    the field that is returned as value, default is "userid"
      * label    text shown on component
+     * silent   don't emit - only show value
      */
     static get observedAttributes() {
-      return ["field", "label", "sql"];
+      return ["field", "label", "sql","silent"];
     }
 
     connectedCallback() {
@@ -54,13 +56,11 @@
       return myself.value;
     }
 
-    
     get id() {
       // id is set by changing field
       let select = this._root.querySelector("#myself > input");
       return select.id;
     }
-    
 
     attributeChangedCallback(name, oldValue, newValue) {
       let lbl = this._root.querySelector("#myself > span");
@@ -72,16 +72,20 @@
       if (name === "sql") {
         this.sql = newValue;
       }
+      if (name === "silent") {
+        this.silent = newValue;
+      }
       if (name === "field") {
         this.field = newValue;
         input.id = newValue;
       }
     }
 
-    trigger(detail) {
+    trigger(detail, eventname = "dbUpdate") {
+      if (this.silent !== "") return;
       detail.source = this.id;
       this.dispatchEvent(
-        new CustomEvent("dbUpdate", {
+        new CustomEvent(eventname, {
           bubbles: true,
           composed: true,
           detail
@@ -89,8 +93,6 @@
       );
     }
 
-    // assumes foreign key has same name in both tables
-    // bok.forfatterid references forfatter.forfatterid
     getUserInfo(field) {
       let input = this._root.querySelector("#myself > input");
       let data = "";
@@ -110,7 +112,7 @@
           if (userinfo && userinfo[field]) {
             let value = userinfo[field];
             input.value = value;
-            this.trigger({});
+            this.trigger({ field: this.field }, `dbFrom-${this.id}`);
           }
         });
       //.catch(e => console.log(e.message));
