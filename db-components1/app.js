@@ -25,14 +25,23 @@ const _usersById = id => {
 };
 
 async function lagBrukerliste() {
+<<<<<<< HEAD
     let sql = `select u.*,k.kundeid from users u left join kunde k
+=======
+    let sql = `select u.*,k.pasientid from users u left join pasient k
+>>>>>>> f445ac9adcd658fcffc5fd15de2a48022ca9ee5f
             on (u.userid = k.userid)`;
     await db
         .any(sql)
         .then(data => {
             if (data && data.length) {
+<<<<<<< HEAD
                 data.forEach(({ userid, username, role, password, kundeid }) => {
                     userlist[userid] = { id: userid, username, role, password, kundeid };
+=======
+                data.forEach(({ userid, username, role, password, pasientid }) => {
+                    userlist[userid] = { id: userid, username, role, password, pasientid };
+>>>>>>> f445ac9adcd658fcffc5fd15de2a48022ca9ee5f
                     _username2id[username] = userid;
                 });
             }
@@ -200,9 +209,13 @@ app.post("/signup", function(req, res) {
 /**
  * Inserts a new user
  * @param {Object} user {username,password,role}
- * @param {boolean} kunde set false if only user
+ * @param {boolean} pasient set false if only user
  */
+<<<<<<< HEAD
 async function makeNewUser(user, kunde = true) {
+=======
+async function makeNewUser(user, pasient = true) {
+>>>>>>> f445ac9adcd658fcffc5fd15de2a48022ca9ee5f
     let failed = false;
     const sql = `insert into users (username,role,password)
   values ('${user.username}','user','${umd5(user.password)}') returning userid`;
@@ -217,17 +230,30 @@ async function makeNewUser(user, kunde = true) {
         password: umd5(user.password)
     };
     _username2id[user.username] = userid;
+<<<<<<< HEAD
     if (kunde) {
         // insert new user as kunde
         const sql = `insert into kunde (userid,fornavn,etternavn,adresse,epost)
            values (${userid},'${user.fornavn}',
            '${user.etternavn}','${user.adresse}','${user.epost}') returning kundeid`;
         const { kundeid } = await db.one(sql).catch(error => {
+=======
+    if (pasient) {
+        // insert new user as pasient
+        const sql = `insert into pasient (userid,fornavn,etternavn,adresse,epost)
+           values (${userid},'${user.fornavn}',
+           '${user.etternavn}','${user.adresse}','${user.epost}') returning pasientid`;
+        const { pasientid } = await db.one(sql).catch(error => {
+>>>>>>> f445ac9adcd658fcffc5fd15de2a48022ca9ee5f
             console.log(error.message);
             failed = true;
         })
         if (failed) return;
+<<<<<<< HEAD
         userlist[userid].kundeid = kundeid;
+=======
+        userlist[userid].pasientid = pasientid;
+>>>>>>> f445ac9adcd658fcffc5fd15de2a48022ca9ee5f
     }
 }
 
@@ -257,7 +283,11 @@ app.post("/runsql", function(req, res) {
         }
     } else {
         // much restricted
+<<<<<<< HEAD
         saferSQL(res, data, { tables: "vare" });
+=======
+        saferSQL(res, data, { tables: "lege" });
+>>>>>>> f445ac9adcd658fcffc5fd15de2a48022ca9ee5f
     }
 });
 
@@ -266,7 +296,11 @@ app.post("/userinfo", function(req, res) {
     let user = req.user;
     let data = req.body;
     if (req.isAuthenticated()) {
+<<<<<<< HEAD
         let sql = data.sql + ` from kunde where userid=${user.id}`;
+=======
+        let sql = data.sql + ` from pasient where userid=${user.id}`;
+>>>>>>> f445ac9adcd658fcffc5fd15de2a48022ca9ee5f
         getuinf(sql, res);
     } else {
         res.send({ error: "player unknown b." });
@@ -348,12 +382,21 @@ async function safesql(user, res, obj) {
     // Studs can see that some sql will be disallowed
     if (user && user.id) {
         let userinfo = userlist[user.id];
+<<<<<<< HEAD
         if (userinfo.kundeid) {
             let good = [
                 `insert into bestilling (dato,kundeid) values ($[dato],$[kundeid])`,
                 `insert into linje (antall,bestillingid,vareid) values ($[antall],$[bestillingid],$[vareid])`,
                 `delete from linje where linjeid in`,
                 `delete from bestilling where besti`,
+=======
+        if (userinfo.pasientid) {
+            let good = [
+                `insert into legetime (dato,pasientid) values ($[dato],$[pasientid])`,
+                `insert into linje (antall,legetimeid,legeid) values ($[antall],$[legetimeid],$[legeid])`,
+                `delete from linje where linjeid in`,
+                `delete from legetime where besti`,
+>>>>>>> f445ac9adcd658fcffc5fd15de2a48022ca9ee5f
             ];
             // the last two delete test are insufficient
             // the inserts do not test for valid id of customer

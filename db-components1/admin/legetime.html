@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Registrer forfatter</title>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <script src="/components/DbUser.js"></script>
+    <script src="/components/DbInsert.js"></script>
+    <script src="/components/DbList.js"></script>
+    <script src="/components/DbTable.js"></script>
+    <script src="/components/Homebar.js"></script>
+    <link rel="stylesheet" href="/css/admin.css">
+</head>
+
+<body>
+
+    <home-bar heading="Nettbutikk" crumb="legetime" getlinks="/htmlfiler/admin" username="/myself" ">
+    </home-bar>
+    
+    <h1 class=" centered ">Mine legetimeer</h1>
+        <div id="admin ">
+
+            <db-insert id="form " fields="dato:date " table="legetime ">
+                <span slot="heading ">legetime lege</span>
+                <db-user id="pasientid " field="pasientid " label="pasientnr "></db-user>
+            </db-insert>
+           
+
+            <div class="table ">
+                <db-table connected="pasientid:pasientid " id="legetime " update="legetime " key="legetimeid "
+                    fields="legetimeid:number,dato:date " delete="legetime " sql="select * from legetime ">
+                    <span slot="caption ">Mine legetimeer</span>
+                </db-table>
+
+                <db-insert id="linje " fields="antall " foreign="lege.legeid:navn+pris "
+                    connected="legetime:legetimeid " table="linje ">
+                    <span slot="heading ">legetime lege</span>
+                </db-insert>
+
+                <db-table connected="legetime:legetimeid " fields="linjeid:hidden,navn,antall:int,pris:money "
+                    update="linje " delete="linje "
+                    sql="select l.*,v.navn,v.pris from linje l inner join lege v on (v.legeid=l .legeid) ">
+                    <span slot="caption ">legelinje</span>
+                </db-table>
+
+                <db-table id="total " connected="legetime:legetimeid " fields="total:money " update="linje " sql="select sum(l.antall * v.pris) as total from linje l inner join lege v on (v.legeid=l .legeid) ">
+                    <span slot="caption ">Totalsum</span>
+                </db-table>
+
+                <db-list cssimport="/css/admin.css " sql="select sum(l.antall * v.pris) as total from linje l inner join lege v on (v.legeid=l .legeid) ">
+                    <div class="total ">Totalsummen blir ${total} kr</div>
+                </db-list>
+
+            </div>
+
+        </div>
+
+</body>
+
+</html>
