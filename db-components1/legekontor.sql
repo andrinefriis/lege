@@ -17,7 +17,12 @@ DROP TABLE IF EXISTS lege cascade;
 DROP TABLE IF EXISTS legetime cascade;
 DROP TABLE IF EXISTS linje cascade;
 
-
+create table users (
+   userid serial primary key,
+   username text not null,
+   role text default 'user',
+   password text not null
+);
 
 -- pasient
 CREATE TABLE pasient (
@@ -44,17 +49,17 @@ CREATE TABLE  legetime  (
    legetimeid  SERIAL PRIMARY KEY,
    dato  date NOT NULL,
    kl time,
-   legeid  int REFERENCES lege (legeid)
+   legeid  int REFERENCES lege (legeid),
+   pasientid int REFERENCES pasient (pasientid)
 );
 
 
 ALTER TABLE  legetime  ADD FOREIGN KEY ( pasientid ) REFERENCES  pasient  ( pasientid );
-ALTER TABLE  linje  ADD FOREIGN KEY ( legetimeid ) REFERENCES  legetime  ( legetimeid );
-ALTER TABLE  linje  ADD FOREIGN KEY ( legeid ) REFERENCES  lege  ( legeid );
 ALTER TABLE  pasient  ADD FOREIGN KEY ( userid ) REFERENCES  users  ( userid );
 ALTER TABLE  lege  ADD FOREIGN KEY ( kategori ) REFERENCES  lege  ( legeid );
 
 alter table legetime owner to legekontor;
 alter table lege owner to legekontor;
 alter table pasient owner to legekontor;
+alter table users owner to legekontor;
 
