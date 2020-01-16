@@ -14,13 +14,12 @@
 </head>
 
 <body>
-    <home-bar heading="Nettshop" crumb="vareliste" getlinks="/htmlfiler/public">
+    <home-bar heading="Velg lege" crumb="" getlinks="/htmlfiler/public">
     </home-bar>
 
     <div id="main">
-        <db-table id="table" fields="navn,pris"
-            sql="select * from vare">
-            <span slot="caption">Varer</span>
+        <db-table id="table" fields="navn,pris" sql="select * from vare">
+            <span slot="caption">Lege</span>
         </db-table>
     </div>
 
