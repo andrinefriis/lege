@@ -132,3 +132,9 @@ main>article {
 #bot {
     grid-area: bot;
 }
+
+#skeis {
+    position: relative;
+    top: 10px;
+    left: 325px;
+}
