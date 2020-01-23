@@ -5,11 +5,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Registrer Eksemplar</title>
+    <title>Registrer Låner</title>
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <script src="/components/DbList.js"></script>
+    <script src="/components/DbInsert.js"></script>
+    <script src="/components/DbTable.js"></script>
+    <script src="/components/DbForeign.js"></script>
     <script src="/components/Homebar.js"></script>
-    <link rel="stylesheet" href="/css/shop.css">
+    <link rel="stylesheet" href="/css/admin.css">
 </head>
 
 <body>
@@ -35,5 +37,21 @@
     </div>
 
 </body>
+
+
+<body>
+
+    <div id="admin ">
+        <div class="table ">
+            <db-table id="table " update="laaner " fields="laanerid,fornavn,etternavn,adresse,epost " delete="laaner " sql="select * from laaner ">
+                <span slot="caption ">Lånere</span>
+            </db-table>
+        </div>
+
+        <db-insert id="form " fields="fornavn,etternavn,adresse,epost " table="laaner ">
+            <span slot="heading ">Registrer Nye Lånere</span>
+        </db-insert>
+
+    </div>
 
 </html>
