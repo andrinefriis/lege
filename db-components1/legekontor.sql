@@ -49,6 +49,7 @@ CREATE TABLE  lege  (
 CREATE TABLE  legetime  (
    legetimeid  SERIAL PRIMARY KEY,
    dato  date NOT NULL,
+   pris text not null
    kl time,
    legeid  int REFERENCES lege (legeid),
    pasientid int REFERENCES pasient (pasientid)
