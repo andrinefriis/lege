@@ -1,0 +1,13 @@
+{
+    "CONNECTSTRING": "postgres://legekontor:123@localhost/legekontor",
+    "PORT": 3001,
+    "PROJECT": "legekontor",
+    "OPEN_TABLES": "legekontor",
+    "DEFAULT_ROLE": "kunde",
+    "LEVEL3": [
+        "select * from vare"
+    ],
+    "LEVEL2": {},
+
+    "LEVEL1": {}
+}
